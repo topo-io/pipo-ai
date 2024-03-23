@@ -25,7 +25,7 @@ def run_code(code, input_dict):
     # Execute the code in the new module and store the result in a variable
     output_dict = None
     try:
-        exec(code, module.__dict__)
+        exec(code, module.__dict__)  # noqa: S102
         if hasattr(module, "output_dict"):
             output_dict = module.output_dict
         else:

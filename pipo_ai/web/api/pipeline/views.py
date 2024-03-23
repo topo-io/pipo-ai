@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from fastapi.param_functions import Depends
 
 from pipo_ai.db.dao.pipeline import PipelineDAO
-from pipo_ai.web.api.pipeline.run_code import run_code
+from pipo_ai.services.code_sandbox import run_code
 from pipo_ai.web.api.pipeline.schema import Message, Pipeline, Slug
 
 router = APIRouter()
