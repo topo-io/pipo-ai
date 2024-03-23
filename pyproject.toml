@@ -28,6 +28,7 @@ loguru = "^0.7.0"
 taskiq = "^0"
 taskiq-fastapi = "^0"
 pyzmq = "^25"
+ruff = "^0.3.4"
 
 
 [tool.poetry.dev-dependencies]
@@ -44,11 +45,6 @@ anyio = "^3.6.2"
 pytest-env = "^0.8.1"
 httpx = "^0.23.3"
 taskiq = { version = "^0", extras = ["reload"] }
-
-[tool.isort]
-profile = "black"
-multi_line_output = 3
-src_paths = ["pipo_ai",]
 
 [tool.mypy]
 strict = true
@@ -103,3 +99,37 @@ jwt_auth = "None"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 79
+indent-width = 4
+target-version = "py312"
+
+[tool.ruff.lint]
+# Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
+# Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
+# McCabe complexity (`C901`) by default.
+select = [
+  "F", # Pyflakes
+  "E", # Pycodestyle
+  "C901", # McCabe complexity
+  "I", # Import order
+  "N", # Naming
+  "UP", # Modern syntax
+  "S", # Security
+  "TID", # Absolute imports
+  "PL", # Pylint
+]
+ignore = []
+fixable = ["ALL"]
+unfixable = []
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+docstring-code-format = true
+
+[tool.ruff.lint.per-file-ignores]
+"app/tests/*" = ["S101"]
