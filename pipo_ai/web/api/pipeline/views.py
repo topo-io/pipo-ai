@@ -3,6 +3,7 @@ from fastapi.param_functions import Depends
 
 from pipo_ai.db.dao.pipeline import PipelineDAO
 from pipo_ai.web.api.pipeline.schema import Message, Pipeline, Slug
+from pipo_ai.web.api.pipeline.run_code import run_code
 
 router = APIRouter()
 
@@ -35,4 +36,9 @@ async def send_echo_message(
     :param incoming_message: incoming message.
     :returns: message same as the incoming.
     """
-    return incoming_message
+    with open("code.txt", "r") as file:
+        code = file.read()
+
+    output = run_code(code, {"value": incoming_message.message})
+
+    return Message(message=f"{output}")
