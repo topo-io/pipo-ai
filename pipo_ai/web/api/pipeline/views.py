@@ -1,8 +1,27 @@
 from fastapi import APIRouter
+from fastapi.param_functions import Depends
 
-from pipo_ai.web.api.pipeline.schema import Message
+from pipo_ai.db.dao.pipeline import PipelineDAO
+from pipo_ai.web.api.pipeline.schema import Message, Pipeline, Slug
 
 router = APIRouter()
+
+
+@router.post("/", response_model=Slug)
+async def create_pipeline(
+    pipeline_input: Pipeline,
+    pipeline_dao: PipelineDAO = Depends(),
+) -> str:
+    """
+    Create a pipeline with the given input.
+
+    :param incoming_message: incoming message.
+    :return: message same as the incoming.
+    """
+    await pipeline_dao.create_pipeline_model(
+        code=pipeline_input.code, slug=pipeline_input.slug
+    )
+    return pipeline_input.slug
 
 
 @router.post("/{slug}", response_model=Message)
