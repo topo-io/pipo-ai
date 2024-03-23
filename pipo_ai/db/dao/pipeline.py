@@ -21,6 +21,17 @@ class PipelineDAO:
         """
         self.session.add(Pipeline(code=code, slug=slug))
 
+    async def get_pipeline_model(self, slug: str) -> Pipeline | None:
+        """
+        Get specific pipeline model.
+
+        :param slug: slug of pipeline instance.
+        :return: pipeline model.
+        """
+        query = select(Pipeline).where(Pipeline.slug == slug)
+        row = await self.session.execute(query)
+        return row.scalars().first()
+
     async def filter(
         self,
         slug: str | None = None,

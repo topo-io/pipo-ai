@@ -2,8 +2,8 @@ from fastapi import APIRouter
 from fastapi.param_functions import Depends
 
 from pipo_ai.db.dao.pipeline import PipelineDAO
-from pipo_ai.web.api.pipeline.schema import Message, Pipeline, Slug
 from pipo_ai.web.api.pipeline.run_code import run_code
+from pipo_ai.web.api.pipeline.schema import Message, Pipeline, Slug
 
 router = APIRouter()
 
@@ -26,19 +26,20 @@ async def create_pipeline(
 
 
 @router.post("/{slug}", response_model=Message)
-async def send_echo_message(
+async def run_pipeline(
     slug: str,
     incoming_message: Message,
+    pipeline_dao: PipelineDAO = Depends(),
 ) -> Message:
     """
-    Sends echo back to user.
+    Run the pipeline.
 
-    :param incoming_message: incoming message.
-    :returns: message same as the incoming.
+    :param slug: slug of the pipeline.
+    :return: output of the pipeline.
     """
-    with open("code.txt", "r") as file:
-        code = file.read()
-
-    output = run_code(code, {"value": incoming_message.message})
+    pipeline = await pipeline_dao.get_pipeline_model(slug)
+    if not pipeline:
+        return Message(message="Pipeline not found")
+    output = run_code(pipeline.code, {"value": incoming_message.message})
 
     return Message(message=f"{output}")
