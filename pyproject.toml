@@ -2,12 +2,8 @@
 name = "pipo_ai"
 version = "0.1.0"
 description = ""
-authors = [
-
-]
-maintainers = [
-
-]
+authors = []
+maintainers = []
 readme = "README.md"
 
 [tool.poetry.dependencies]
@@ -19,9 +15,9 @@ pydantic = "^2"
 pydantic-settings = "^2"
 yarl = "^1.9.2"
 ujson = "^5.8.0"
-SQLAlchemy = {version = "^2.0.18", extras = ["asyncio"]}
+SQLAlchemy = { version = "^2.0.18", extras = ["asyncio"] }
 alembic = "^1.11.1"
-asyncpg = {version = "^0.28.0", extras = ["sa"]}
+asyncpg = { version = "^0.28.0", extras = ["sa"] }
 aiofiles = "^23.1.0"
 httptools = "^0.6.0"
 loguru = "^0.7.0"
@@ -65,36 +61,7 @@ filterwarnings = [
     "ignore::DeprecationWarning",
     "ignore:.*unclosed.*:ResourceWarning",
 ]
-env = [
-    "PIPO_AI_ENVIRONMENT=pytest",
-    "PIPO_AI_DB_BASE=pipo_ai_test",
-]
-
-[fastapi-template.options]
-project_name = "pipo_ai"
-api_type = "rest"
-enable_redis = "None"
-enable_rmq = "None"
-ci_type = "none"
-enable_migrations = "True"
-enable_taskiq = "True"
-enable_kube = "None"
-kube_name = "pipo-ai"
-enable_routers = "True"
-enable_kafka = "None"
-enable_loguru = "True"
-traefik_labels = "None"
-add_dummy = "None"
-orm = "sqlalchemy"
-self_hosted_swagger = "True"
-prometheus_enabled = "None"
-sentry_enabled = "None"
-otlp_enabled = "None"
-pydanticv1 = "None"
-gunicorn = "True"
-add_users = "None"
-cookie_auth = "None"
-jwt_auth = "None"
+env = ["PIPO_AI_ENVIRONMENT=pytest", "PIPO_AI_DB_BASE=pipo_ai_test"]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -110,15 +77,15 @@ target-version = "py312"
 # Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
 # McCabe complexity (`C901`) by default.
 select = [
-  "F", # Pyflakes
-  "E", # Pycodestyle
-  "C901", # McCabe complexity
-  "I", # Import order
-  "N", # Naming
-  "UP", # Modern syntax
-  "S", # Security
-  "TID", # Absolute imports
-  "PL", # Pylint
+    "F",    # Pyflakes
+    "E",    # Pycodestyle
+    "C901", # McCabe complexity
+    "I",    # Import order
+    "N",    # Naming
+    "UP",   # Modern syntax
+    "S",    # Security
+    "TID",  # Absolute imports
+    "PL",   # Pylint
 ]
 ignore = []
 fixable = ["ALL"]
