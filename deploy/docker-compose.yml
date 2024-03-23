@@ -1,0 +1,66 @@
+version: '3.9'
+
+services:
+  api: &main_app
+    build:
+      context: .
+      dockerfile: ./deploy/Dockerfile
+      target: prod
+    image: pipo_ai:${PIPO_AI_VERSION:-latest}
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PIPO_AI_HOST: 0.0.0.0
+      PIPO_AI_DB_HOST: pipo_ai-db
+      PIPO_AI_DB_PORT: 5432
+      PIPO_AI_DB_USER: pipo_ai
+      PIPO_AI_DB_PASS: pipo_ai
+      PIPO_AI_DB_BASE: pipo_ai
+
+  taskiq-worker:
+    <<: *main_app
+    labels: []
+    command:
+      - taskiq
+      - worker
+      - pipo_ai.tkq:broker
+
+  db:
+    image: postgres:13.8-bullseye
+    hostname: pipo_ai-db
+    environment:
+      POSTGRES_PASSWORD: "pipo_ai"
+      POSTGRES_USER: "pipo_ai"
+      POSTGRES_DB: "pipo_ai"
+    volumes:
+      - pipo_ai-db-data:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: pg_isready -U pipo_ai
+      interval: 2s
+      timeout: 3s
+      retries: 40
+
+  migrator:
+    image: pipo_ai:${PIPO_AI_VERSION:-latest}
+    restart: "no"
+    command: alembic upgrade head
+    environment:
+      PIPO_AI_DB_HOST: pipo_ai-db
+      PIPO_AI_DB_PORT: 5432
+      PIPO_AI_DB_USER: pipo_ai
+      PIPO_AI_DB_PASS: pipo_ai
+      PIPO_AI_DB_BASE: pipo_ai
+    depends_on:
+      db:
+        condition: service_healthy
+
+
+
+volumes:
+  pipo_ai-db-data:
+    name: pipo_ai-db-data
