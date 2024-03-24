@@ -26,6 +26,7 @@ taskiq-fastapi = "^0"
 pyzmq = "^25"
 ruff = "^0.3.4"
 jsonschema = "^4.21.1"
+genson = "^1.2.2"
 
 
 [tool.poetry.dev-dependencies]

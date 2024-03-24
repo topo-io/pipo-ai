@@ -7,7 +7,7 @@ class Message(BaseModel):
     message: str
 
 
-class Slug(BaseModel):
+class PipelineSlug(BaseModel):
     """Simple slug model."""
 
     slug: str
