@@ -46,6 +46,19 @@ class PipelineDAO:
             self.session.add(pipeline)
         await self.session.commit()
 
+    async def update_pipeline_model(self, id: str, code: str) -> None:
+        """
+        Update single pipeline to session.
+
+        :param code: code of a pipeline.
+        :param id: id of a pipeline.
+        """
+        query = select(Pipeline).where(Pipeline.id == id)
+        row = await self.session.execute(query)
+        pipeline = row.scalars().first()
+        pipeline.code = code
+        await self.session.commit()
+
     async def get_pipeline_model(self, id: str) -> Pipeline | None:
         """
         Get specific pipeline model.

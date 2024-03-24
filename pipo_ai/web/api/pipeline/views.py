@@ -55,7 +55,7 @@ async def update_pipeline_code(
     :return: id of the updated pipeline.
     """
     code = sanitize_code(pipeline_input.code)
-    await pipeline_dao.upsert_pipeline_model(id=id, code=code)
+    await pipeline_dao.update_pipeline_model(id=id, code=code)
     return Pipeline(id=str(id))
 
 
