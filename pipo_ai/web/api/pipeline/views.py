@@ -22,7 +22,7 @@ async def create_pipeline(
     :return: id of the created pipeline.
     """
     await pipeline_dao.create_pipeline_model(id=id)
-    return Pipeline(id=id)
+    return Pipeline(id=str(id))
 
 
 @router.post("/{id}/code", response_model=Pipeline)
@@ -38,7 +38,7 @@ async def update_pipeline_code(
     :return: id of the updated pipeline.
     """
     await pipeline_dao.upsert_pipeline_model(id=id, code=pipeline_input.code)
-    return Pipeline(id=id)
+    return Pipeline(id=str(id))
 
 
 @router.post("/{id}/start")
