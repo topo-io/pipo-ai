@@ -14,9 +14,9 @@ class JSONSchemaDAO:
 
     async def create_json_schema_model(
         self,
-        pipeline_id: str,
         type: str,
         schema: dict,
+        pipeline_id: str | None = None,
     ) -> None:
         """
         Add single JSONSchema to session.
@@ -31,9 +31,9 @@ class JSONSchemaDAO:
 
     async def upsert_json_schema_model(
         self,
-        pipeline_id: str,
         type: str,
         schema: dict,
+        pipeline_id: str | None = None,
     ) -> None:
         """
         Update or insert single JSONSchema to session.
@@ -56,7 +56,9 @@ class JSONSchemaDAO:
         await self.session.commit()
 
     async def get_json_schema_model(
-        self, pipeline_id: str, type: str
+        self,
+        type: str,
+        pipeline_id: str | None = None,
     ) -> JSONSchema | None:
         """
         Get specific JSONSchema model.

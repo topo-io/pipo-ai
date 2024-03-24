@@ -8,7 +8,7 @@ def infer_json_schema(data: dict) -> dict:
     return builder.to_schema()
 
 
-def validate_json(data: dict, json_schema: Draft7Validator):
+def validate_json(data: dict, json_schema: dict):
     validator = Draft7Validator(json_schema)
     errors = list(validator.iter_errors(data))
     return errors

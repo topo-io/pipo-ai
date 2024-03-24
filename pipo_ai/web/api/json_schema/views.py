@@ -16,7 +16,7 @@ async def create_json_schema(
 ) -> JSONSchemaSlug:
     json_schema_validator = infer_json_schema(input_dict)
     print(json_schema_validator)
-    json_schema_dao.create_json_schema_model(
-        pipeline_id=slug, type="input", schema={}
+    await json_schema_dao.create_json_schema_model(
+        type="input", schema=json_schema_validator
     )
     return JSONSchemaSlug(slug=slug)
