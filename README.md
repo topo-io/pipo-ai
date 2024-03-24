@@ -1,8 +1,51 @@
-# pipo_ai
+# Pipo AI
 
-This project was generated using fastapi_template.
+Introducing **Pipo AI**: A new tool for automating data pipeline generation (ETL) and maintenance by analyzing input-output examples to handle transformations automatically.
 
-## Poetry
+For example, a Data Engineer can use us to connect easily the input of Stripe to Snowflake without writing any code.
+
+## 🎯 Motivations
+
+Doing transformation is one of the most time-consuming task for engineers: it is different for each integration you want to implement.
+
+Complex transformations can be a mess.
+
+The maintenance of the data piple can be hard and involves a lot of people.
+
+We won't lie: it is a boring task!
+
+## ✨ Features
+
+- **MistralAI powered**:Use the power of Mistral 🇫🇷 to generate an optimized code
+- **Open-Source**: Let the world use Pipo AI
+- **Schema validation auto-generated**: Infered json structures from your inputs/outputs
+- **Auto mapping**: Reformat your data to match with the desired output. It can handle simple transformation (like create a `full_name` field from `first_name` and `last_name` but also complex transformation like date/time format transformation)
+- **Auto maintenance**: Automatically detect and add new columns created
+
+## 🚀 Getting Started
+
+...
+
+## 🗺️ Roadmap
+
+This is an early project but we have already these features in mind:
+
+- Support different input/output formats
+- Self healing pipeline which ping you on Slack when your schema is not anymore updated
+- Act as Segment: be a proxy to different sources (authentication and security)
+- Connection to different input and output sources (DBs, API)
+- Use openapi spec as validation schema
+
+## 🙋 Contributing
+
+Any help would be more than appreciated!
+Please check out our [contributing guide](./contributing.md) to see how you can get involved!
+
+If you are interested by this project, want to ask questions, contribute, or have proposals, contact us!
+
+### Set up your dev environment
+
+#### Poetry
 
 This project uses poetry. It's a modern dependency management
 tool.
@@ -18,7 +61,7 @@ This will start the server on the configured host.
 
 You can find swagger documentation at `/api/docs`.
 
-## Project structure
+#### Project structure
 
 ```bash
 $ tree "pipo_ai"
@@ -39,7 +82,7 @@ pipo_ai
     └── lifetime.py  # Contains actions to perform on startup and shutdown.
 ```
 
-## Configuration
+#### Configuration
 
 This application can be configured with environment variables.
 
@@ -66,7 +109,7 @@ PIPO_AI_DB_PASS=postgres
 
 You can read more about BaseSettings class here: https://pydantic-docs.helpmanual.io/usage/settings/
 
-## Migrations
+#### Migrations
 
 If you want to migrate your database, you should run following commands:
 
@@ -78,7 +121,7 @@ alembic upgrade "<revision_id>"
 alembic upgrade "head"
 ```
 
-### Reverting migrations
+#### Reverting migrations
 
 If you want to revert migrations, you should run:
 
@@ -90,7 +133,7 @@ alembic downgrade <revision_id>
  alembic downgrade base
 ```
 
-### Migration generation
+#### Migration generation
 
 To generate migrations you should run:
 
@@ -102,7 +145,7 @@ alembic revision --autogenerate
 alembic revision
 ```
 
-## Running tests
+#### Running tests
 
 If you want to run it in docker, simply run:
 
