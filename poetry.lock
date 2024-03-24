@@ -706,6 +706,16 @@ files = [
 flake8 = "*"
 
 [[package]]
+name = "genson"
+version = "1.2.2"
+description = "GenSON is a powerful, user-friendly JSON Schema generator."
+optional = false
+python-versions = "*"
+files = [
+    {file = "genson-1.2.2.tar.gz", hash = "sha256:8caf69aa10af7aee0e1a1351d1d06801f4696e005f06cedef438635384346a16"},
+]
+
+[[package]]
 name = "gitignore-parser"
 version = "0.1.11"
 description = "A spec-compliant gitignore parser for Python 3.5+"
@@ -2857,4 +2867,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "fcd1c3f9260061ddad4bc1f3ca4af632faa37cddd27340722ac75b45b1825ac8"
+content-hash = "f0ae04c136bdc6d7ec4dbed2b29eb5e460a7655ca42c4ca23de5060d9909ace1"

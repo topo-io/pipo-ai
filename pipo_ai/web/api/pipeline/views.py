@@ -5,16 +5,16 @@ from fastapi.param_functions import Depends
 from pipo_ai.db.dao.json_schema import JSONSchemaDAO
 from pipo_ai.db.dao.pipeline import PipelineDAO
 from pipo_ai.services.code_sandbox import run_code
-from pipo_ai.web.api.pipeline.schema import Code, Slug
+from pipo_ai.web.api.pipeline.schema import Code, PipelineSlug
 
 router = APIRouter()
 
 
-@router.post("/{slug}", response_model=Slug)
+@router.post("/{slug}", response_model=PipelineSlug)
 async def create_pipeline(
     slug: str,
     pipeline_dao: PipelineDAO = Depends(),
-) -> Slug:
+) -> PipelineSlug:
     """
     Create a pipeline with the given input.
 
@@ -22,15 +22,15 @@ async def create_pipeline(
     :return: slug of the created pipeline.
     """
     await pipeline_dao.create_pipeline_model(slug=slug)
-    return Slug(slug=slug)
+    return PipelineSlug(slug=slug)
 
 
-@router.post("/{slug}/code", response_model=Slug)
+@router.post("/{slug}/code", response_model=PipelineSlug)
 async def update_pipeline_code(
     slug: str,
     pipeline_input: Code,
     pipeline_dao: PipelineDAO = Depends(),
-) -> Slug:
+) -> PipelineSlug:
     """
     Update a pipeline with given input.
 
@@ -40,7 +40,7 @@ async def update_pipeline_code(
     await pipeline_dao.upsert_pipeline_model(
         slug=slug, code=pipeline_input.code
     )
-    return Slug(slug=slug)
+    return PipelineSlug(slug=slug)
 
 
 @router.post("/{slug}/start")
