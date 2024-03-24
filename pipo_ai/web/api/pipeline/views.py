@@ -4,24 +4,45 @@ from fastapi.param_functions import Depends
 
 from pipo_ai.db.dao.pipeline import PipelineDAO
 from pipo_ai.services.code_sandbox import run_code
-from pipo_ai.web.api.pipeline.schema import Code, Pipeline
+from pipo_ai.web.api.pipeline.schema import Code, Pipeline, PipelineInput
 
 router = APIRouter()
 
 
-@router.post("/{id}", response_model=Pipeline)
+@router.post("/{id}")
 async def create_pipeline(
     id: str,
+    pipeline_input: PipelineInput,
     pipeline_dao: PipelineDAO = Depends(),
-) -> Pipeline:
+) -> dict[str, str]:
     """
     Create a pipeline with the given input.
 
     :param id: create a pipeline with the given id.
-    :return: id of the created pipeline.
+    :return: dict[str, str].
     """
-    await pipeline_dao.create_pipeline_model(id=id)
-    return Pipeline(id=str(id))
+    await pipeline_dao.create_pipeline_model(
+        id=id,
+        input_schema_id=pipeline_input.input_schema_id,
+        output_schema_id=pipeline_input.output_schema_id,
+    )
+    pipeline = await pipeline_dao.get_pipeline_model(id)
+    if not pipeline or pipeline.input_schema or not pipeline.output_schema:
+        return {
+            "error": f"Input or output schema not found for pipeline with id {id}.",
+        }
+
+    httpx.post(
+        "https://automation.topo.io/webhook/11136b88-f235-4597-b9f6-48b3959c2388",
+        data={
+            "input_format": pipeline.input_schema.value,
+            "output_format": pipeline.output_schema.value,
+            "id": id,
+        },
+    )
+    return {
+        "message": "Pipeline started!",
+    }
 
 
 @router.post("/{id}/code", response_model=Pipeline)
@@ -38,61 +59,6 @@ async def update_pipeline_code(
     """
     await pipeline_dao.upsert_pipeline_model(id=id, code=pipeline_input.code)
     return Pipeline(id=str(id))
-
-
-@router.post("/{id}/start")
-async def start_pipeline(
-    id: str,
-    pipeline_dao: PipelineDAO = Depends(),
-) -> dict:
-    """
-    Start the pipeline.
-
-    :param pipeline_input: input to update a pipeline.
-    :return: id of the updated pipeline.
-    """
-    pipeline_with_schemas = await pipeline_dao.get_pipeline_model_with_schemas(
-        id
-    )
-    if not pipeline_with_schemas:
-        return {
-            "error": f"Pipeline with id {id} not found.",
-        }
-
-    input_format = next(
-        (
-            schema
-            for schema in pipeline_with_schemas.json_schemas
-            if schema.type == "input"
-        ),
-        None,
-    )
-
-    output_format = next(
-        (
-            schema
-            for schema in pipeline_with_schemas.json_schemas
-            if schema.type == "output"
-        ),
-        None,
-    )
-
-    if not input_format or not output_format:
-        return {
-            "error": "Input and output schemas are required.",
-        }
-
-    httpx.post(
-        "https://automation.topo.io/webhook/11136b88-f235-4597-b9f6-48b3959c2388",
-        data={
-            "input_format": input_format.value,
-            "output_format": output_format.value,
-            "id": id,
-        },
-    )
-    return {
-        "message": "Pipeline started!",
-    }
 
 
 @router.post("/{id}/run")

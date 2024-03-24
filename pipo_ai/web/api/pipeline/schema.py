@@ -13,6 +13,13 @@ class Pipeline(BaseModel):
     id: str
 
 
+class PipelineInput(BaseModel):
+    """Simple pipeline input model."""
+
+    input_schema_id: str
+    output_schema_id: str
+
+
 class Code(BaseModel):
     """Simple code model."""
 

@@ -13,13 +13,19 @@ class PipelineDAO:
     def __init__(self, session: AsyncSession = Depends(get_db_session)):
         self.session = session
 
-    async def create_pipeline_model(self, id: str) -> None:
+    async def create_pipeline_model(
+        self, id: str, input_schema_id: str, output_schema_id: str
+    ) -> None:
         """
         Add single pipeline to session.
 
         :param id: id of a pipeline.
         """
-        pipeline = Pipeline(id=id)
+        pipeline = Pipeline(
+            id=id,
+            input_schema_id=input_schema_id,
+            output_schema_id=output_schema_id,
+        )
         self.session.add(pipeline)
 
     async def upsert_pipeline_model(self, id: str, code: str) -> None:
@@ -39,23 +45,6 @@ class PipelineDAO:
             self.session.add(pipeline)
         await self.session.commit()
 
-    async def get_pipeline_model_with_schemas(
-        self, id: str
-    ) -> Pipeline | None:
-        """
-        Get specific pipeline model with schemas.
-
-        :param id: id of pipeline instance.
-        :return: pipeline model.
-        """
-        query = (
-            select(Pipeline)
-            .where(Pipeline.id == id)
-            .options(joinedload(Pipeline.json_schemas))
-        )
-        row = await self.session.execute(query)
-        return row.scalars().first()
-
     async def get_pipeline_model(self, id: str) -> Pipeline | None:
         """
         Get specific pipeline model.
@@ -63,6 +52,11 @@ class PipelineDAO:
         :param id: id of pipeline instance.
         :return: pipeline model.
         """
-        query = select(Pipeline).where(Pipeline.id == id)
+        query = (
+            select(Pipeline)
+            .where(Pipeline.id == id)
+            .options(joinedload(Pipeline.input_schema))
+            .options(joinedload(Pipeline.output_schema))
+        )
         row = await self.session.execute(query)
         return row.scalars().first()
