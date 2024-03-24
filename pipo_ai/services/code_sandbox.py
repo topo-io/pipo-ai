@@ -4,6 +4,7 @@ import types
 
 
 def run_code(code, input_dict):
+    # Check code safety
     check_code(code)
 
     # Create a new module to execute the code safely

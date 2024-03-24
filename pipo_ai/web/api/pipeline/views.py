@@ -28,7 +28,7 @@ async def create_pipeline(
 @router.post("/{slug}", response_model=Message)
 async def run_pipeline(
     slug: str,
-    input_dict: Message,
+    input_dict: dict,
     pipeline_dao: PipelineDAO = Depends(),
 ) -> Message:
     """
@@ -41,6 +41,6 @@ async def run_pipeline(
     pipeline = await pipeline_dao.get_pipeline_model(slug)
     if not pipeline:
         return Message(message="Pipeline not found")
-    output = run_code(pipeline.code, {"value": input_dict.message})
+    output = run_code(pipeline.code, input_dict)
 
     return Message(message=f"{output}")
