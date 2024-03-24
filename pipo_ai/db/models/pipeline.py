@@ -15,7 +15,7 @@ class Pipeline(Base):
 
     id = Column(Uuid, primary_key=True, default=func.uuid_generate_v4())
     slug = Column(String, nullable=False, unique=True)
-    code = Column(Text, nullable=False)
+    code = Column(Text, nullable=True)
 
     # Relationships
     jsonschemas: Mapped[list["JSONSchema"]] = relationship(

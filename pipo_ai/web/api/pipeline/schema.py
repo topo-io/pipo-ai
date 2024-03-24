@@ -17,4 +17,3 @@ class Pipeline(BaseModel):
     """Simple pipeline model."""
 
     code: str
-    slug: str

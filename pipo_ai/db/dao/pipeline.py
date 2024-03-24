@@ -12,15 +12,36 @@ class PipelineDAO:
     def __init__(self, session: AsyncSession = Depends(get_db_session)):
         self.session = session
 
-    async def create_pipeline_model(self, code: str, slug: str) -> None:
+    async def create_pipeline_model(
+        self, slug: str, code: str | None = None
+    ) -> None:
         """
         Add single pipeline to session.
 
         :param code: code of a pipeline.
         :param slug: slug of a pipeline.
         """
-        pipeline = Pipeline(code=code, slug=slug)
+        pipeline = Pipeline(slug=slug, code=code)
         self.session.add(pipeline)
+
+    async def upsert_pipeline_model(
+        self, slug: str, code: str | None = None
+    ) -> None:
+        """
+        Update or insert single pipeline to session.
+
+        :param code: code of a pipeline.
+        :param slug: slug of a pipeline.
+        """
+        query = select(Pipeline).where(Pipeline.slug == slug)
+        row = await self.session.execute(query)
+        pipeline = row.scalars().first()
+        if pipeline:
+            pipeline.code = code
+        else:
+            pipeline = Pipeline(slug=slug, code=code)
+            self.session.add(pipeline)
+        await self.session.commit()
 
     async def get_pipeline_model(self, slug: str) -> Pipeline | None:
         """

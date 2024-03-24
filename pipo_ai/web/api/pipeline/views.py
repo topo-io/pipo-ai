@@ -9,8 +9,24 @@ from pipo_ai.web.api.pipeline.schema import Pipeline, Slug
 router = APIRouter()
 
 
-@router.post("/", response_model=Slug)
+@router.post("/{slug}", response_model=Slug)
 async def create_pipeline(
+    slug: str,
+    pipeline_dao: PipelineDAO = Depends(),
+) -> Slug:
+    """
+    Create a pipeline with the given input.
+
+    :param pipeline_input: input for creating the pipeline.
+    :return: slug of the created pipeline.
+    """
+    await pipeline_dao.create_pipeline_model(slug=slug)
+    return Slug(slug=slug)
+
+
+@router.post("/{slug}/code", response_model=Slug)
+async def update_pipeline_code(
+    slug: str,
     pipeline_input: Pipeline,
     pipeline_dao: PipelineDAO = Depends(),
 ) -> Slug:
@@ -20,13 +36,11 @@ async def create_pipeline(
     :param pipeline_input: input for creating the pipeline.
     :return: slug of the created pipeline.
     """
-    await pipeline_dao.create_pipeline_model(
-        code=pipeline_input.code, slug=pipeline_input.slug
-    )
-    return Slug(slug=pipeline_input.slug)
+    await pipeline_dao.upsert_pipeline_model(slug=slug)
+    return Slug(slug=slug)
 
 
-@router.post("/{slug}")
+@router.post("/{slug}/run")
 async def run_pipeline(
     slug: str,
     input_dict: dict,
