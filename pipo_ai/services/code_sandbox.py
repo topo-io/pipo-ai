@@ -4,6 +4,8 @@ import types
 
 
 def run_code(code, input_dict):
+    check_code(code)
+
     # Create a new module to execute the code safely
     module_name = "__temp_module__"
     module = types.ModuleType(module_name)
@@ -11,16 +13,6 @@ def run_code(code, input_dict):
 
     # Add the input_dict variable to the temporary module
     module.input_dict = input_dict
-
-    # Analyze the code to make sure it doesn't contain any dangerous statements
-    ast_node = ast.parse(code)
-    for node in ast.walk(ast_node):
-        if isinstance(
-            node, ast.Global | ast.Import | ast.ImportFrom | ast.Nonlocal
-        ):
-            raise ValueError(
-                "The code must not contain any import, global or nonlocal statements."
-            )
 
     # Execute the code in the new module and store the result in a variable
     output_dict = None
@@ -37,3 +29,15 @@ def run_code(code, input_dict):
     del sys.modules[module_name]
 
     return output_dict
+
+
+def check_code(code):
+    # Analyze the code to make sure it doesn't contain any dangerous statements
+    ast_node = ast.parse(code)
+    for node in ast.walk(ast_node):
+        if isinstance(
+            node, ast.Global | ast.Import | ast.ImportFrom | ast.Nonlocal
+        ):
+            raise ValueError(
+                "The code must not contain any import, global or nonlocal statements."
+            )
