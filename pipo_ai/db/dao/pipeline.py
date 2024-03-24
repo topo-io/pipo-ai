@@ -1,7 +1,7 @@
 from fastapi import Depends
 from sqlalchemy import select
-from sqlalchemy.orm import joinedload
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import joinedload
 
 from pipo_ai.db.dependencies import get_db_session
 from pipo_ai.db.models.pipeline import Pipeline

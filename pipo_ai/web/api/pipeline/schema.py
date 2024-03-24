@@ -13,6 +13,12 @@ class Slug(BaseModel):
     slug: str
 
 
+class Code(BaseModel):
+    """Simple code model."""
+
+    code: str
+
+
 class Pipeline(BaseModel):
     """Simple pipeline model."""
 
