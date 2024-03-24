@@ -3,7 +3,7 @@ from fastapi import APIRouter
 from fastapi.param_functions import Depends
 
 from pipo_ai.db.dao.pipeline import PipelineDAO
-from pipo_ai.services.code_sandbox import run_code
+from pipo_ai.services.code_sandbox import run_code, sanitize_code
 from pipo_ai.web.api.pipeline.schema import Code, Pipeline, PipelineInput
 
 router = APIRouter()
@@ -54,7 +54,8 @@ async def update_pipeline_code(
     :param code: input to update a pipeline.
     :return: id of the updated pipeline.
     """
-    await pipeline_dao.upsert_pipeline_model(id=id, code=pipeline_input.code)
+    code = sanitize_code(pipeline_input.code)
+    await pipeline_dao.upsert_pipeline_model(id=id, code=code)
     return Pipeline(id=str(id))
 
 

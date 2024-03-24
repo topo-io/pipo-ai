@@ -42,3 +42,37 @@ def check_code(code):
             raise ValueError(
                 "The code must not contain any import, global or nonlocal statements."
             )
+
+
+def sanitize_code(code: str) -> str:
+    # Parse the code into an AST
+    tree = ast.parse(code)
+
+    # Remove all import statements from the code
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import | ast.ImportFrom):
+            # Find the parent node of the import statement
+            parent_node = node
+            while isinstance(parent_node, ast.AST):
+                parent_node = getattr(parent_node, "parent", None)
+                if parent_node is None:
+                    break
+            if parent_node is not None:
+                parent_node.body.remove(node)
+
+    # Remove all return statements and their values from the code
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Return):
+            # Find the parent node of the return statement
+            parent_node = node
+            while isinstance(parent_node, ast.AST):
+                parent_node = getattr(parent_node, "parent", None)
+                if parent_node is None:
+                    break
+            if parent_node is not None:
+                parent_node.body.remove(node)
+
+    # Generate the sanitized code from the modified AST
+    sanitized_code = ast.unparse(tree)
+
+    return sanitized_code
