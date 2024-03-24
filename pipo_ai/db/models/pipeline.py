@@ -8,5 +8,5 @@ class Pipeline(Base):
     __tablename__ = "pipeline"
 
     id = Column(Uuid, primary_key=True, default=func.uuid_generate_v4())
-    slug = Column(String, nullable=False)
+    slug = Column(String, nullable=False, unique=True)
     code = Column(Text, nullable=False)
