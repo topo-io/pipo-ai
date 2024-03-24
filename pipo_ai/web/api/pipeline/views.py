@@ -36,7 +36,9 @@ async def update_pipeline_code(
     :param pipeline_input: input for creating the pipeline.
     :return: slug of the created pipeline.
     """
-    await pipeline_dao.upsert_pipeline_model(slug=slug)
+    await pipeline_dao.upsert_pipeline_model(
+        slug=slug, code=pipeline_input.code
+    )
     return Slug(slug=slug)
 
 
