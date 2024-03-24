@@ -47,12 +47,13 @@ class JSONSchemaDAO:
         row = await self.session.execute(query)
         json_schema = row.scalars().first()
         if json_schema:
-            json_schema.schema = schema
+            json_schema.value = schema
         else:
             json_schema = JSONSchema(
                 pipeline_id=pipeline_id, type=type, value=schema
             )
             self.session.add(json_schema)
+        await self.session.commit()
 
     async def get_json_schema_model(
         self, pipeline_id: str, type: str

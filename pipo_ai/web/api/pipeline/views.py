@@ -68,7 +68,7 @@ async def upsert_input_json_schema(
             "error": f"Pipeline with slug {slug} not found.",
         }
 
-    json_schema_dao.upsert_json_schema_model(
+    await json_schema_dao.upsert_json_schema_model(
         schema=schema, type="input", pipeline_id=pipeline.id
     )
     return {"message": "Success!"}
@@ -93,7 +93,7 @@ async def upsert_output_json_schema(
             "error": f"Pipeline with slug {slug} not found.",
         }
 
-    json_schema_dao.upsert_json_schema_model(
+    await json_schema_dao.upsert_json_schema_model(
         schema=schema, type="output", pipeline_id=pipeline.id
     )
     return {"message": "Success!"}
