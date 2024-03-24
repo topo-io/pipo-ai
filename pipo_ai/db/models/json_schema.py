@@ -39,7 +39,7 @@ class JSONSchema(Base):
     # Relationships
     pipeline_id: Mapped[Uuid | None] = mapped_column(Uuid)
     pipeline: Mapped["Pipeline"] = relationship(
-        "Pipeline", back_populates="jsonschemas"
+        "Pipeline", back_populates="json_schemas"
     )
 
     def __getitem__(self, key):

@@ -1,5 +1,6 @@
 from fastapi import Depends
 from sqlalchemy import select
+from sqlalchemy.orm import joinedload
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from pipo_ai.db.dependencies import get_db_session
@@ -47,7 +48,11 @@ class PipelineDAO:
         :param slug: slug of pipeline instance.
         :return: pipeline model.
         """
-        query = select(Pipeline).where(Pipeline.slug == slug)
+        query = (
+            select(Pipeline)
+            .where(Pipeline.slug == slug)
+            .options(joinedload(Pipeline.json_schemas))
+        )
         row = await self.session.execute(query)
         return row.scalars().first()
 

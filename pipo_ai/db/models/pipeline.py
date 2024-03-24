@@ -18,6 +18,6 @@ class Pipeline(Base):
     code = Column(Text, nullable=True)
 
     # Relationships
-    jsonschemas: Mapped[list["JSONSchema"]] = relationship(
+    json_schemas: Mapped[list["JSONSchema"]] = relationship(
         "JSONSchema", back_populates="pipeline"
     )
