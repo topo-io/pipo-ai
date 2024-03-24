@@ -5,7 +5,6 @@ from sqlalchemy import (
     JSON,
     Column,
     ForeignKeyConstraint,
-    UniqueConstraint,
     Uuid,
 )
 from sqlalchemy import Enum as SQLAlchemyEnum
@@ -31,14 +30,14 @@ class JSONSchema(Base):
             ["pipeline.id"],
             ondelete="CASCADE",
         ),
-        UniqueConstraint("pipeline_id", "type"),
     )
 
     id = Column(Uuid, primary_key=True, default=func.uuid_generate_v4())
     value = Column(JSON, nullable=False)
     type = Column(SQLAlchemyEnum(JsonSchemaTypeEnum), nullable=False)
+
     # Relationships
-    pipeline_id: Mapped[Uuid] = mapped_column(Uuid)
+    pipeline_id: Mapped[Uuid | None] = mapped_column(Uuid)
     pipeline: Mapped["Pipeline"] = relationship(
         "Pipeline", back_populates="jsonschemas"
     )
