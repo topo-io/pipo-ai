@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import TYPE_CHECKING
 
-from sqlalchemy import JSON, Column, Uuid
+from sqlalchemy import JSON, Column, ForeignKeyConstraint, Uuid
 from sqlalchemy import Enum as SQLAlchemyEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
@@ -19,6 +19,13 @@ class JsonSchemaTypeEnum(str, Enum):
 
 class JSONSchema(Base):
     __tablename__ = "json_schema"
+    __table_args__ = (
+        ForeignKeyConstraint(
+            ["pipeline_id"],
+            ["pipeline.id"],
+            ondelete="CASCADE",
+        ),
+    )
 
     id = Column(Uuid, primary_key=True, default=func.uuid_generate_v4())
     value = Column(JSON, nullable=False)
