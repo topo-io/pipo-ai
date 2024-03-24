@@ -1,3 +1,4 @@
+import httpx
 from fastapi import APIRouter
 from fastapi.param_functions import Depends
 
@@ -58,27 +59,38 @@ async def start_pipeline(
         return {
             "error": f"Pipeline with slug {slug} not found.",
         }
-    # TODO: fix it
-    for json_schema in pipeline_with_schemas.jsonschemas:
-        print(json_schema.value)
 
-    # input_format = next(
-    #     item
-    #     for item in pipeline_with_schemas.jsonschemas
-    #     if item["type"] == "input"
-    # ).value
-    # output_format = next(
-    #     item
-    #     for item in pipeline_with_schemas.jsonschemas
-    #     if item["type"] == "output"
-    # ).value
-    # httpx.post(
-    #     "https://automation.topo.io/webhook/11136b88-f235-4597-b9f6-48b3959c2388",
-    #     data={
-    #         "input_format": input_format,
-    #         "output_format": output_format,
-    #     },
-    # )
+    input_format = next(
+        (
+            schema
+            for schema in pipeline_with_schemas.json_schemas
+            if schema.type == "input"
+        ),
+        None,
+    )
+
+    output_format = next(
+        (
+            schema
+            for schema in pipeline_with_schemas.json_schemas
+            if schema.type == "output"
+        ),
+        None,
+    )
+
+    if not input_format or not output_format:
+        return {
+            "error": "Input and output schemas are required.",
+        }
+
+    httpx.post(
+        "https://automation.topo.io/webhook/11136b88-f235-4597-b9f6-48b3959c2388",
+        data={
+            "input_format": input_format.value,
+            "output_format": output_format.value,
+            "slug": slug,
+        },
+    )
     return {
         "message": "Pipeline started!",
     }
