@@ -12,7 +12,7 @@ router = APIRouter()
 async def create_pipeline(
     pipeline_input: Pipeline,
     pipeline_dao: PipelineDAO = Depends(),
-) -> str:
+) -> Slug:
     """
     Create a pipeline with the given input.
 
