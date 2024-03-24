@@ -22,7 +22,7 @@ async def create_pipeline(
     await pipeline_dao.create_pipeline_model(
         code=pipeline_input.code, slug=pipeline_input.slug
     )
-    return pipeline_input.slug
+    return Slug(slug=pipeline_input.slug)
 
 
 @router.post("/{slug}", response_model=Message)
