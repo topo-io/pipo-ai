@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "wmaurer.change-case",
+    "stringham.copy-with-imports",
+    "github.copilot",
+    "github.remotehub",
+    "aaron-bond.better-comments",
+    "ms-python.python",
+    "zeshuaro.vscode-python-poetry",
+    "ms-python.debugpy",
+    "ms-python.vscode-pylance",
+    "ninoseki.vscode-pylens"
+  ]
+}
