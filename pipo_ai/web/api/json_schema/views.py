@@ -8,15 +8,13 @@ from pipo_ai.web.api.json_schema.schema import JSONSchema, JSONSchemaDTO
 router = APIRouter()
 
 
-@router.post("/{id}/from_input", response_model=JSONSchema)
+@router.post("/from_input", response_model=JSONSchema)
 async def create_json_schema(
-    id: str,
     input_dict: dict,
     json_schema_dao: JSONSchemaDAO = Depends(),
 ) -> JSONSchema:
     json_schema_validator = infer_json_schema(input_dict)
-    print(json_schema_validator)
-    await json_schema_dao.create_json_schema_model(
+    id = await json_schema_dao.create_json_schema_model(
         type="input", schema=json_schema_validator
     )
     return JSONSchema(id=str(id))
