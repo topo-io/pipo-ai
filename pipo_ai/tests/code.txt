@@ -1,0 +1,52 @@
+output_dict = {}
+
+# Map and format message
+message_dict = {}
+message_dict['toneOfVoice'] = input_dict['tone_of_voice']
+message_dict['language'] = input_dict['language']
+output_dict['message'] = message_dict
+
+# Map and format sender
+sender_dict = {}
+sender_dict['firstName'] = input_dict['agent']['first_name']
+sender_dict['agentId'] = input_dict['agent']['id']
+sender_dict['calendarURL'] = input_dict['agent']['calendar_url']
+
+company_dict = {}
+company_dict['name'] = input_dict['company_name']
+company_dict['valueProposition'] = input_dict['value_proposition']
+company_dict['description'] = input_dict['company_description']
+company_dict['painPoints'] = input_dict['painpoints']
+company_dict['clients'] = input_dict['customer_story']
+company_dict['organizationId'] = input_dict['id']
+company_dict['countryCode'] = input_dict['geography'][0] if input_dict['geography'] else ""
+sender_dict['company'] = company_dict
+
+output_dict['sender'] = sender_dict
+
+# Map and format recipient
+recipient_dict = {}
+recipient_dict['firstName'] = input_dict['contact']['first_name']
+recipient_dict['fullName'] = f"{input_dict['contact']['first_name']} {input_dict['contact']['last_name']}"
+recipient_dict['contactId'] = input_dict['contact']['id']
+recipient_dict['jobTitle'] = input_dict['contact']['job_title']
+recipient_dict['Email Open'] = input_dict['contact']['custom_fields']['Email Open'] == "Yes"
+recipient_dict['Replied'] = input_dict['contact']['custom_fields']['Replied'] == "Yes"
+
+company_dict = {}
+company_dict['name'] = input_dict['contact']['company_name']
+company_dict['description'] = input_dict['contact']['company_description']
+company_dict['painPoints'] = input_dict['contact']['company_pains'].split(',')
+company_dict['valueProposition'] = input_dict['contact']['company_usp'].split(',')
+company_dict['clients'] = input_dict['contact']['company_clients'].split(',')
+company_dict['numberOfEmployee'] = int(input_dict['contact']['custom_fields']['# Employees'])
+recipient_dict['company'] = company_dict
+
+output_dict['recipient'] = recipient_dict
+
+# Map and format custom
+custom_dict = {}
+custom_dict['enriched_date'] = input_dict['contact']['enriched_at']
+output_dict['custom'] = custom_dict
+
+output_dict

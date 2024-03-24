@@ -1,0 +1,45 @@
+{
+    "message": {
+        "toneOfVoice": "Casual",
+        "language": "French"
+    },
+    "sender": {
+        "firstName": "Maxence",
+        "agentId": "018e4edb-9739-7c15-b454-f37598a81ba9",
+        "calendarURL": "https:\/\/calendar.app.google\/dCLLjKLfFgz3kig47",
+        "company": {
+            "name": "malibou",
+            "valueProposition": "- Une solution moderne pour centraliser la gestion RH et la paie dans un seul outil.\n- Un outil de gestion de la paie simple à prendre en main et 20-50% moins cher que les solutions existantes.\n- Un expert en paie dédié vous accompagne pour répondre à  vos questions.\n- On élimine le besoin de plusieurs outils, et la collecte manuelle des données de paie (congés, tickets-restaurant, primes...).",
+            "description": "malibou est une solution  moderne et simple de gestion de tous vos processus RH et de paie.",
+            "painPoints": "- C'est complexe et cela prend beaucoup de temps de de gérer la paie.\n- Mon outil de gestion de la paie n'est pas simple et intuitif.\n- J'aimerais pouvoir centraliser la gestion RH et la paie dans un seul outil.\n- Je ne suis pas accompagné quand j'ai des questions sur la paie.",
+            "clients": "Studiometa a pu migrer sa paie de Payfit vers malibou en moins d'une minute, économisant des milliers d'euros, avec les mêmes avantages et un interlocuteur dédié.",
+            "organizationId": "404e618e-dd10-4318-a3b2-ff4021b9ec17",
+            "countryCode": "France"
+        }
+    },
+    "recipient": {
+        "firstName": "Chris",
+        "fullName": "Chris Bunn",
+        "contactId": "018e6727-4514-7a5c-8db3-ab90d03d61e5",
+        "jobTitle": "Multi-Factor Authentication & Access Management | Directeur Général Adjoint",
+        "Email Open": false,
+        "Replied": false,
+        "company": {
+            "name": "IS Decisions",
+            "description": "UserLock and FileAudit help prevent unauthorized network and file access through Multi-factor Authentication, Active Directory Login Management, File Access Auditing, and Permission Change Monitoring. Stop security breaches and get compliant.",
+            "painPoints": [
+                "- Unauthorized network and file access;- Security breaches;- Regulatory compliance"
+            ],
+            "valueProposition": [
+                "- Multi-factor Authentication;- Active Directory Login Management;- File Access Auditing and Permission Change Monitoring"
+            ],
+            "clients": [
+                "- Teleperformance;- St. Clair County Board of Education;- Cleaver Fulton Rankin"
+            ],
+            "numberOfEmployee": 43
+        }
+    },
+    "custom": {
+        "enriched_date": "2024-03-22T17:14:27.200Z"
+    }
+}
