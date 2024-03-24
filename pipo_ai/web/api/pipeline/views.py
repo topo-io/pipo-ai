@@ -2,7 +2,6 @@ import httpx
 from fastapi import APIRouter
 from fastapi.param_functions import Depends
 
-from pipo_ai.db.dao.json_schema import JSONSchemaDAO
 from pipo_ai.db.dao.pipeline import PipelineDAO
 from pipo_ai.services.code_sandbox import run_code
 from pipo_ai.web.api.pipeline.schema import Code, Pipeline
@@ -117,53 +116,3 @@ async def run_pipeline(
     output = run_code(pipeline.code, input_dict)
 
     return output
-
-
-@router.post("/{id}/json_schema/input")
-async def upsert_input_json_schema(
-    id: str,
-    schema: dict,
-    pipeline_dao: PipelineDAO = Depends(),
-    json_schema_dao: JSONSchemaDAO = Depends(),
-) -> dict:
-    """
-    Update the input JSON schema for a pipeline.
-
-    :param id: id of the pipeline.
-    :return: updated JSON schema.
-    """
-    pipeline = await pipeline_dao.get_pipeline_model(id)
-    if not pipeline:
-        return {
-            "error": f"Pipeline with id {id} not found.",
-        }
-
-    await json_schema_dao.upsert_json_schema_model(
-        schema=schema, type="input", pipeline_id=pipeline.id
-    )
-    return {"message": "Success!"}
-
-
-@router.post("/{id}/json_schema/output")
-async def upsert_output_json_schema(
-    id: str,
-    schema: dict,
-    pipeline_dao: PipelineDAO = Depends(),
-    json_schema_dao: JSONSchemaDAO = Depends(),
-) -> dict:
-    """
-    Update the output JSON schema for a pipeline.
-
-    :param id: id of the pipeline.
-    :return: updated JSON schema.
-    """
-    pipeline = await pipeline_dao.get_pipeline_model(id)
-    if not pipeline:
-        return {
-            "error": f"Pipeline with id {id} not found.",
-        }
-
-    await json_schema_dao.upsert_json_schema_model(
-        schema=schema, type="output", pipeline_id=pipeline.id
-    )
-    return {"message": "Success!"}
