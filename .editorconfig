@@ -1,7 +1,7 @@
 root = true
 
 [*]
-tab_width = 4
+tab_width = 2
 end_of_line = lf
 max_line_length = 88
 ij_visual_guides = 88
@@ -18,10 +18,12 @@ trim_trailing_whitespace = false
 indent_style = space
 indent_size = 2
 
-[Makefile]
-indent_style = tab
+[*.json]
+indent_style = space
+indent_size = 2
 
 [*.py]
 indent_style = space
+tab_width = 4
 indent_size = 4
 ij_python_from_import_parentheses_force_if_multiline = true
