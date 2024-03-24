@@ -13,7 +13,7 @@ router = APIRouter()
 async def create_pipeline(
     pipeline_input: PipelineInput,
     pipeline_dao: PipelineDAO = Depends(),
-) -> dict[str, str]:
+) -> Pipeline:
     """
     Create a pipeline with the given input.
 
@@ -25,9 +25,6 @@ async def create_pipeline(
         output_schema_id=pipeline_input.output_schema_id,
     )
     pipeline = await pipeline_dao.get_pipeline_model(str(id))
-    print(f"pipeline: {pipeline.id}")
-    print(f"input: {pipeline.input_schema.id}")
-    print(f"output: {pipeline.output_schema.id}")
 
     if not pipeline or not pipeline.input_schema or not pipeline.output_schema:
         return {
@@ -42,9 +39,7 @@ async def create_pipeline(
             "id": id,
         },
     )
-    return {
-        "message": "Pipeline started!",
-    }
+    return Pipeline(id=str(id))
 
 
 @router.post("/{id}/code", response_model=Pipeline)
