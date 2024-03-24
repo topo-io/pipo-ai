@@ -18,7 +18,8 @@ async def test_run_pipeline(fastapi_app: FastAPI, client: AsyncClient) -> None:
     :param fastapi_app: current application.
     :param client: client for the app.
     """
-    url = fastapi_app.url_path_for("run_pipeline", slug="test")
+    id = "25f6128b-1c3e-403a-87e8-0d0da1becc72"
+    url = fastapi_app.url_path_for("run_pipeline", id=id)
 
     # Lisez le fichier d'entrée
     with open("pipo_ai/tests/input.json") as f:
@@ -27,10 +28,10 @@ async def test_run_pipeline(fastapi_app: FastAPI, client: AsyncClient) -> None:
     with open("pipo_ai/tests/code.txt") as f:
         code = f.read()
 
-    mock_pipeline = Pipeline(slug="test", code=code)
+    mock_pipeline = Pipeline(id=id, code=code)
 
     # Créez un objet PipelineDAO mocké
-    mock_dao = PipelineDAO(None)
+    mock_dao = PipelineDAO()
     mock_dao.get_pipeline_model = mock.AsyncMock(return_value=mock_pipeline)
 
     # Injectez le DAO mocké dans la route

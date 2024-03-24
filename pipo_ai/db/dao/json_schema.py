@@ -21,8 +21,9 @@ class JSONSchemaDAO:
         """
         Add single JSONSchema to session.
 
+        :param type: type of JSONSchema instance (input or output).
         :param schema: schema of a JSONSchema.
-        :param slug: slug of a JSONSchema.
+        :param pipeline_id: id of a Pipeline.
         """
         json_schema = JSONSchema(
             pipeline_id=pipeline_id, type=type, value=schema
@@ -38,8 +39,9 @@ class JSONSchemaDAO:
         """
         Update or insert single JSONSchema to session.
 
+        :param type: type of JSONSchema instance (input or output).
         :param schema: schema of a JSONSchema.
-        :param slug: slug of a JSONSchema.
+        :param pipeline_id: id of a Pipeline.
         """
         query = select(JSONSchema).where(
             JSONSchema.pipeline_id == pipeline_id and JSONSchema.type == type
@@ -63,7 +65,8 @@ class JSONSchemaDAO:
         """
         Get specific JSONSchema model.
 
-        :param slug: slug of JSONSchema instance.
+        :param type: type of JSONSchema instance.
+        :param pipeline_id: id of a Pipeline.
         :return: JSONSchema model.
         """
         query = select(JSONSchema).where(

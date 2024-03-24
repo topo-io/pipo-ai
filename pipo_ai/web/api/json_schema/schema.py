@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class JSONSchemaSlug(BaseModel):
+class JSONSchema(BaseModel):
     """Simple slug model."""
 
-    slug: str
+    id: str

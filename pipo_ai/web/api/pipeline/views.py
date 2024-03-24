@@ -5,61 +5,59 @@ from fastapi.param_functions import Depends
 from pipo_ai.db.dao.json_schema import JSONSchemaDAO
 from pipo_ai.db.dao.pipeline import PipelineDAO
 from pipo_ai.services.code_sandbox import run_code
-from pipo_ai.web.api.pipeline.schema import Code, PipelineSlug
+from pipo_ai.web.api.pipeline.schema import Code, Pipeline
 
 router = APIRouter()
 
 
-@router.post("/{slug}", response_model=PipelineSlug)
+@router.post("/{id}", response_model=Pipeline)
 async def create_pipeline(
-    slug: str,
+    id: str,
     pipeline_dao: PipelineDAO = Depends(),
-) -> PipelineSlug:
+) -> Pipeline:
     """
     Create a pipeline with the given input.
 
-    :param slug: create a pipeline with the given slug.
-    :return: slug of the created pipeline.
+    :param id: create a pipeline with the given id.
+    :return: id of the created pipeline.
     """
-    await pipeline_dao.create_pipeline_model(slug=slug)
-    return PipelineSlug(slug=slug)
+    await pipeline_dao.create_pipeline_model(id=id)
+    return Pipeline(id=id)
 
 
-@router.post("/{slug}/code", response_model=PipelineSlug)
+@router.post("/{id}/code", response_model=Pipeline)
 async def update_pipeline_code(
-    slug: str,
+    id: str,
     pipeline_input: Code,
     pipeline_dao: PipelineDAO = Depends(),
-) -> PipelineSlug:
+) -> Pipeline:
     """
     Update a pipeline with given input.
 
     :param code: input to update a pipeline.
-    :return: slug of the updated pipeline.
+    :return: id of the updated pipeline.
     """
-    await pipeline_dao.upsert_pipeline_model(
-        slug=slug, code=pipeline_input.code
-    )
-    return PipelineSlug(slug=slug)
+    await pipeline_dao.upsert_pipeline_model(id=id, code=pipeline_input.code)
+    return Pipeline(id=id)
 
 
-@router.post("/{slug}/start")
+@router.post("/{id}/start")
 async def start_pipeline(
-    slug: str,
+    id: str,
     pipeline_dao: PipelineDAO = Depends(),
 ) -> dict:
     """
     Start the pipeline.
 
     :param pipeline_input: input to update a pipeline.
-    :return: slug of the updated pipeline.
+    :return: id of the updated pipeline.
     """
     pipeline_with_schemas = await pipeline_dao.get_pipeline_model_with_schemas(
-        slug
+        id
     )
     if not pipeline_with_schemas:
         return {
-            "error": f"Pipeline with slug {slug} not found.",
+            "error": f"Pipeline with id {id} not found.",
         }
 
     input_format = next(
@@ -90,7 +88,7 @@ async def start_pipeline(
         data={
             "input_format": input_format.value,
             "output_format": output_format.value,
-            "slug": slug,
+            "id": id,
         },
     )
     return {
@@ -98,32 +96,32 @@ async def start_pipeline(
     }
 
 
-@router.post("/{slug}/run")
+@router.post("/{id}/run")
 async def run_pipeline(
-    slug: str,
+    id: str,
     input_dict: dict,
     pipeline_dao: PipelineDAO = Depends(),
 ) -> dict:
     """
     Run the code of the pipeline.
 
-    :param slug: slug of the pipeline.
+    :param id: id of the pipeline.
     :param input_dict: Input data structure.
     :return: output of the pipeline.
     """
-    pipeline = await pipeline_dao.get_pipeline_model(slug)
+    pipeline = await pipeline_dao.get_pipeline_model(id)
     if not pipeline:
         return {
-            "error": f"Pipeline with slug {slug} not found.",
+            "error": f"Pipeline with id {id} not found.",
         }
     output = run_code(pipeline.code, input_dict)
 
     return output
 
 
-@router.post("/{slug}/json_schema/input")
+@router.post("/{id}/json_schema/input")
 async def upsert_input_json_schema(
-    slug: str,
+    id: str,
     schema: dict,
     pipeline_dao: PipelineDAO = Depends(),
     json_schema_dao: JSONSchemaDAO = Depends(),
@@ -131,13 +129,13 @@ async def upsert_input_json_schema(
     """
     Update the input JSON schema for a pipeline.
 
-    :param slug: slug of the pipeline.
+    :param id: id of the pipeline.
     :return: updated JSON schema.
     """
-    pipeline = await pipeline_dao.get_pipeline_model(slug)
+    pipeline = await pipeline_dao.get_pipeline_model(id)
     if not pipeline:
         return {
-            "error": f"Pipeline with slug {slug} not found.",
+            "error": f"Pipeline with id {id} not found.",
         }
 
     await json_schema_dao.upsert_json_schema_model(
@@ -146,9 +144,9 @@ async def upsert_input_json_schema(
     return {"message": "Success!"}
 
 
-@router.post("/{slug}/json_schema/output")
+@router.post("/{id}/json_schema/output")
 async def upsert_output_json_schema(
-    slug: str,
+    id: str,
     schema: dict,
     pipeline_dao: PipelineDAO = Depends(),
     json_schema_dao: JSONSchemaDAO = Depends(),
@@ -156,13 +154,13 @@ async def upsert_output_json_schema(
     """
     Update the output JSON schema for a pipeline.
 
-    :param slug: slug of the pipeline.
+    :param id: id of the pipeline.
     :return: updated JSON schema.
     """
-    pipeline = await pipeline_dao.get_pipeline_model(slug)
+    pipeline = await pipeline_dao.get_pipeline_model(id)
     if not pipeline:
         return {
-            "error": f"Pipeline with slug {slug} not found.",
+            "error": f"Pipeline with id {id} not found.",
         }
 
     await json_schema_dao.upsert_json_schema_model(

@@ -13,56 +13,56 @@ class PipelineDAO:
     def __init__(self, session: AsyncSession = Depends(get_db_session)):
         self.session = session
 
-    async def create_pipeline_model(self, slug: str) -> None:
+    async def create_pipeline_model(self, id: str) -> None:
         """
         Add single pipeline to session.
 
-        :param slug: slug of a pipeline.
+        :param id: id of a pipeline.
         """
-        pipeline = Pipeline(slug=slug)
+        pipeline = Pipeline(id=id)
         self.session.add(pipeline)
 
-    async def upsert_pipeline_model(self, slug: str, code: str) -> None:
+    async def upsert_pipeline_model(self, id: str, code: str) -> None:
         """
         Update or insert single pipeline to session.
 
         :param code: code of a pipeline.
-        :param slug: slug of a pipeline.
+        :param id: id of a pipeline.
         """
-        query = select(Pipeline).where(Pipeline.slug == slug)
+        query = select(Pipeline).where(Pipeline.id == id)
         row = await self.session.execute(query)
         pipeline = row.scalars().first()
         if pipeline:
             pipeline.code = code
         else:
-            pipeline = Pipeline(slug=slug, code=code)
+            pipeline = Pipeline(id=id, code=code)
             self.session.add(pipeline)
         await self.session.commit()
 
     async def get_pipeline_model_with_schemas(
-        self, slug: str
+        self, id: str
     ) -> Pipeline | None:
         """
         Get specific pipeline model with schemas.
 
-        :param slug: slug of pipeline instance.
+        :param id: id of pipeline instance.
         :return: pipeline model.
         """
         query = (
             select(Pipeline)
-            .where(Pipeline.slug == slug)
+            .where(Pipeline.id == id)
             .options(joinedload(Pipeline.json_schemas))
         )
         row = await self.session.execute(query)
         return row.scalars().first()
 
-    async def get_pipeline_model(self, slug: str) -> Pipeline | None:
+    async def get_pipeline_model(self, id: str) -> Pipeline | None:
         """
         Get specific pipeline model.
 
-        :param slug: slug of pipeline instance.
+        :param id: id of pipeline instance.
         :return: pipeline model.
         """
-        query = select(Pipeline).where(Pipeline.slug == slug)
+        query = select(Pipeline).where(Pipeline.id == id)
         row = await self.session.execute(query)
         return row.scalars().first()

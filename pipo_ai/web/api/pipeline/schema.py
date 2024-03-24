@@ -7,19 +7,13 @@ class Message(BaseModel):
     message: str
 
 
-class PipelineSlug(BaseModel):
-    """Simple slug model."""
+class Pipeline(BaseModel):
+    """Simple model."""
 
-    slug: str
+    id: str
 
 
 class Code(BaseModel):
     """Simple code model."""
-
-    code: str
-
-
-class Pipeline(BaseModel):
-    """Simple pipeline model."""
 
     code: str
