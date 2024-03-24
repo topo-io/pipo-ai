@@ -18,7 +18,7 @@ class JsonSchemaTypeEnum(str, Enum):
 
 
 class JSONSchema(Base):
-    __tablename__ = "jsonschema"
+    __tablename__ = "json_schema"
 
     id = Column(Uuid, primary_key=True, default=func.uuid_generate_v4())
     value = Column(JSON, nullable=False)

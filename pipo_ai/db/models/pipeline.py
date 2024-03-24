@@ -7,7 +7,7 @@ from sqlalchemy.sql import func
 from pipo_ai.db.base import Base
 
 if TYPE_CHECKING:
-    from pipo_ai.db.models.jsonschema import JSONSchema
+    from pipo_ai.db.models.json_schema import JSONSchema
 
 
 class Pipeline(Base):
