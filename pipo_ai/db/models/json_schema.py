@@ -41,3 +41,6 @@ class JSONSchema(Base):
     pipeline: Mapped["Pipeline"] = relationship(
         "Pipeline", back_populates="jsonschemas"
     )
+
+    def __getitem__(self, key):
+        return self[key]

@@ -12,21 +12,16 @@ class PipelineDAO:
     def __init__(self, session: AsyncSession = Depends(get_db_session)):
         self.session = session
 
-    async def create_pipeline_model(
-        self, slug: str, code: str | None = None
-    ) -> None:
+    async def create_pipeline_model(self, slug: str) -> None:
         """
         Add single pipeline to session.
 
-        :param code: code of a pipeline.
         :param slug: slug of a pipeline.
         """
-        pipeline = Pipeline(slug=slug, code=code)
+        pipeline = Pipeline(slug=slug)
         self.session.add(pipeline)
 
-    async def upsert_pipeline_model(
-        self, slug: str, code: str | None = None
-    ) -> None:
+    async def upsert_pipeline_model(self, slug: str, code: str) -> None:
         """
         Update or insert single pipeline to session.
 
@@ -43,6 +38,19 @@ class PipelineDAO:
             self.session.add(pipeline)
         await self.session.commit()
 
+    async def get_pipeline_model_with_schemas(
+        self, slug: str
+    ) -> Pipeline | None:
+        """
+        Get specific pipeline model with schemas.
+
+        :param slug: slug of pipeline instance.
+        :return: pipeline model.
+        """
+        query = select(Pipeline).where(Pipeline.slug == slug)
+        row = await self.session.execute(query)
+        return row.scalars().first()
+
     async def get_pipeline_model(self, slug: str) -> Pipeline | None:
         """
         Get specific pipeline model.
@@ -53,19 +61,3 @@ class PipelineDAO:
         query = select(Pipeline).where(Pipeline.slug == slug)
         row = await self.session.execute(query)
         return row.scalars().first()
-
-    async def filter(
-        self,
-        slug: str | None = None,
-    ) -> list:
-        """
-        Get specific pipeline model.
-
-        :param slug: slug of pipeline instance.
-        :return: pipeline models.
-        """
-        query = select(Pipeline)
-        if slug:
-            query = query.where(Pipeline.slug == slug)
-        rows = await self.session.execute(query)
-        return list(rows.scalars().fetchall())
