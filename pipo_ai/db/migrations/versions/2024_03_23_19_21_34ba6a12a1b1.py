@@ -18,40 +18,8 @@ depends_on = None
 
 
 def upgrade() -> None:
-    op.create_table(
-        "json_schema",
-        sa.Column("id", sa.Uuid(), nullable=False),
-        sa.Column("value", sa.JSON(), nullable=False),
-        sa.Column(
-            "type",
-            sa.Enum("input", "output", name="jsonschematypeenum"),
-            nullable=False,
-        ),
-        sa.Column("pipeline_id", sa.Uuid(), nullable=False),
-        sa.PrimaryKeyConstraint("id"),
-    )
-    op.drop_table("jsonschema")
+    op.rename_table("jsonschema", "json_schema")
 
 
 def downgrade() -> None:
-    op.create_table(
-        "jsonschema",
-        sa.Column("id", sa.UUID(), autoincrement=False, nullable=False),
-        sa.Column(
-            "value",
-            postgresql.JSON(astext_type=sa.Text()),
-            autoincrement=False,
-            nullable=False,
-        ),
-        sa.Column(
-            "type",
-            postgresql.ENUM("input", "output", name="jsonschematypeenum"),
-            autoincrement=False,
-            nullable=False,
-        ),
-        sa.Column(
-            "pipeline_id", sa.UUID(), autoincrement=False, nullable=False
-        ),
-        sa.PrimaryKeyConstraint("id", name="jsonschema_pkey"),
-    )
-    op.drop_table("json_schema")
+    op.rename_table("json_schema", "jsonschema")

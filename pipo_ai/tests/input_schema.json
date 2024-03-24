@@ -1,0 +1,453 @@
+{
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string"
+        },
+        "logo_url": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "created_at": {
+            "type": "string"
+        },
+        "id": {
+            "type": "string"
+        },
+        "domain": {
+            "type": "string"
+        },
+        "language": {
+            "type": "string"
+        },
+        "industries": {
+            "type": [
+                "array",
+                "null"
+            ],
+            "items": {
+                "type": "string"
+            }
+        },
+        "painpoints": {
+            "type": "string"
+        },
+        "apollo_list": {
+            "type": "string"
+        },
+        "email_limit": {
+            "type": "integer"
+        },
+        "geography": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "company_name": {
+            "type": "string"
+        },
+        "company_size": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "icp_job_title": {
+            "type": "string"
+        },
+        "tone_of_voice": {
+            "type": "string"
+        },
+        "customer_story": {
+            "type": "string"
+        },
+        "value_proposition": {
+            "type": "string"
+        },
+        "company_description": {
+            "type": "string"
+        },
+        "encrypted_hubspot_api_key": {
+            "type": "string"
+        },
+        "updated_at": {
+            "type": "string"
+        },
+        "agent": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "email_bcc": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "daily_email_cap": {
+                    "type": "integer"
+                },
+                "grant_id": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "organization_id": {
+                    "type": "string"
+                },
+                "first_name": {
+                    "type": "string"
+                },
+                "last_name": {
+                    "type": "string"
+                },
+                "calendar_url": {
+                    "type": "string"
+                },
+                "original_email": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id",
+                "email",
+                "email_bcc",
+                "created_at",
+                "updated_at",
+                "daily_email_cap",
+                "grant_id",
+                "organization_id",
+                "first_name",
+                "last_name",
+                "calendar_url",
+                "original_email"
+            ]
+        },
+        "contact": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "first_name": {
+                    "type": "string"
+                },
+                "last_name": {
+                    "type": "string"
+                },
+                "job_title": {
+                    "type": "string"
+                },
+                "company_name": {
+                    "type": "string"
+                },
+                "company_name_for_emails": {
+                    "type": "string"
+                },
+                "organization_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "company_description": {
+                    "type": "string"
+                },
+                "company_pains": {
+                    "type": "string"
+                },
+                "company_usp": {
+                    "type": "string"
+                },
+                "company_clients": {
+                    "type": "string"
+                },
+                "custom_fields": {
+                    "type": "object",
+                    "properties": {
+                        "City": {
+                            "type": "string"
+                        },
+                        "Email": {
+                            "type": "string"
+                        },
+                        "Lists": {
+                            "type": "string"
+                        },
+                        "Stage": {
+                            "type": "string"
+                        },
+                        "State": {
+                            "type": "string"
+                        },
+                        "Title": {
+                            "type": "string"
+                        },
+                        "Demoed": {
+                            "type": "string"
+                        },
+                        "Company": {
+                            "type": "string"
+                        },
+                        "Country": {
+                            "type": "string"
+                        },
+                        "Replied": {
+                            "type": "string"
+                        },
+                        "Website": {
+                            "type": "string"
+                        },
+                        "Industry": {
+                            "type": "string"
+                        },
+                        "Keywords": {
+                            "type": "string"
+                        },
+                        "Last Name": {
+                            "type": "string"
+                        },
+                        "Seniority": {
+                            "type": "string"
+                        },
+                        "Email Open": {
+                            "type": "string"
+                        },
+                        "First Name": {
+                            "type": "string"
+                        },
+                        "# Employees": {
+                            "type": "string"
+                        },
+                        "First Phone": {
+                            "type": "string"
+                        },
+                        "Twitter Url": {
+                            "type": "string"
+                        },
+                        "Company City": {
+                            "type": "string"
+                        },
+                        "Email Status": {
+                            "type": "string"
+                        },
+                        "Facebook Url": {
+                            "type": "string"
+                        },
+                        "Technologies": {
+                            "type": "string"
+                        },
+                        "User Managed": {
+                            "type": "string"
+                        },
+                        "Account Owner": {
+                            "type": "string"
+                        },
+                        "Company Phone": {
+                            "type": "string"
+                        },
+                        "Company State": {
+                            "type": "string"
+                        },
+                        "Contact Owner": {
+                            "type": "string"
+                        },
+                        "Email Bounced": {
+                            "type": "string"
+                        },
+                        "Annual Revenue": {
+                            "type": "string"
+                        },
+                        "Company Address": {
+                            "type": "string"
+                        },
+                        "Company Country": {
+                            "type": "string"
+                        },
+                        "Corporate Phone": {
+                            "type": "string"
+                        },
+                        "SEO Description": {
+                            "type": "string"
+                        },
+                        "Apollo Account Id": {
+                            "type": "string"
+                        },
+                        "Apollo Contact Id": {
+                            "type": "string"
+                        },
+                        "Person Linkedin Url": {
+                            "type": "string"
+                        },
+                        "Company Linkedin Url": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "City",
+                        "Email",
+                        "Lists",
+                        "Stage",
+                        "State",
+                        "Title",
+                        "Demoed",
+                        "Company",
+                        "Country",
+                        "Replied",
+                        "Website",
+                        "Industry",
+                        "Keywords",
+                        "Last Name",
+                        "Seniority",
+                        "Email Open",
+                        "First Name",
+                        "# Employees",
+                        "First Phone",
+                        "Twitter Url",
+                        "Company City",
+                        "Email Status",
+                        "Facebook Url",
+                        "Technologies",
+                        "User Managed",
+                        "Account Owner",
+                        "Company Phone",
+                        "Company State",
+                        "Contact Owner",
+                        "Email Bounced",
+                        "Annual Revenue",
+                        "Company Address",
+                        "Company Country",
+                        "Corporate Phone",
+                        "SEO Description",
+                        "Apollo Account Id",
+                        "Apollo Contact Id",
+                        "Person Linkedin Url",
+                        "Company Linkedin Url"
+                    ]
+                },
+                "enriched_at": {
+                    "type": "string"
+                },
+                "email_verified": {
+                    "type": "boolean"
+                },
+                "email_verified_at": {
+                    "type": "string"
+                },
+                "data_provider": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id",
+                "email",
+                "first_name",
+                "last_name",
+                "job_title",
+                "company_name",
+                "company_name_for_emails",
+                "organization_id",
+                "created_at",
+                "updated_at",
+                "company_description",
+                "company_pains",
+                "company_usp",
+                "company_clients",
+                "custom_fields",
+                "enriched_at",
+                "email_verified",
+                "email_verified_at",
+                "data_provider"
+            ]
+        },
+        "message": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "subject": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "approval_status": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "agent_id": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "contact_id": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "instantly": {
+            "type": [
+                "boolean",
+                "null"
+            ]
+        },
+        "sent_at": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "scheduled_at": {
+            "type": [
+                "string",
+                "null"
+            ]
+        }
+    },
+    "required": [
+        "name",
+        "logo_url",
+        "created_at",
+        "id",
+        "domain",
+        "language",
+        "industries",
+        "painpoints",
+        "apollo_list",
+        "email_limit",
+        "geography",
+        "company_name",
+        "company_size",
+        "icp_job_title",
+        "tone_of_voice",
+        "customer_story",
+        "value_proposition",
+        "company_description",
+        "encrypted_hubspot_api_key",
+        "updated_at",
+        "agent",
+        "contact"
+    ]
+}
