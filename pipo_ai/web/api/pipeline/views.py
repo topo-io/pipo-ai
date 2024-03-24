@@ -76,6 +76,10 @@ async def run_pipeline(
         return {
             "error": f"Pipeline with id {id} not found.",
         }
+    if not pipeline.code:
+        return {
+            "error": f"Pipeline {id} not ready yet!",
+        }
     output = run_code(pipeline.code, input_dict)
 
     return output
