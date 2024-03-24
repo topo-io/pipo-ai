@@ -19,7 +19,8 @@ class PipelineDAO:
         :param code: code of a pipeline.
         :param slug: slug of a pipeline.
         """
-        self.session.add(Pipeline(code=code, slug=slug))
+        pipeline = Pipeline(code=code, slug=slug)
+        self.session.add(pipeline)
 
     async def get_pipeline_model(self, slug: str) -> Pipeline | None:
         """
