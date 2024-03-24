@@ -1,5 +1,5 @@
 from fastapi import Depends
-from sqlalchemy import select
+from sqlalchemy import Uuid, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 
@@ -14,19 +14,20 @@ class PipelineDAO:
         self.session = session
 
     async def create_pipeline_model(
-        self, id: str, input_schema_id: str, output_schema_id: str
-    ) -> None:
+        self, input_schema_id: str, output_schema_id: str
+    ) -> Uuid:
         """
         Add single pipeline to session.
 
         :param id: id of a pipeline.
         """
         pipeline = Pipeline(
-            id=id,
             input_schema_id=input_schema_id,
             output_schema_id=output_schema_id,
         )
         self.session.add(pipeline)
+        await self.session.commit()
+        return pipeline.id  # type: i
 
     async def upsert_pipeline_model(self, id: str, code: str) -> None:
         """

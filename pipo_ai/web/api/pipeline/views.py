@@ -9,9 +9,8 @@ from pipo_ai.web.api.pipeline.schema import Code, Pipeline, PipelineInput
 router = APIRouter()
 
 
-@router.post("/{id}")
+@router.post("/")
 async def create_pipeline(
-    id: str,
     pipeline_input: PipelineInput,
     pipeline_dao: PipelineDAO = Depends(),
 ) -> dict[str, str]:
@@ -21,13 +20,16 @@ async def create_pipeline(
     :param id: create a pipeline with the given id.
     :return: dict[str, str].
     """
-    await pipeline_dao.create_pipeline_model(
-        id=id,
+    id = await pipeline_dao.create_pipeline_model(
         input_schema_id=pipeline_input.input_schema_id,
         output_schema_id=pipeline_input.output_schema_id,
     )
-    pipeline = await pipeline_dao.get_pipeline_model(id)
-    if not pipeline or pipeline.input_schema or not pipeline.output_schema:
+    pipeline = await pipeline_dao.get_pipeline_model(str(id))
+    print(f"pipeline: {pipeline.id}")
+    print(f"input: {pipeline.input_schema.id}")
+    print(f"output: {pipeline.output_schema.id}")
+
+    if not pipeline or not pipeline.input_schema or not pipeline.output_schema:
         return {
             "error": f"Input or output schema not found for pipeline with id {id}.",
         }
